@@ -12,7 +12,7 @@ contact form. Everything else is secondary.
 
 ## Stack
 
-Next.js 15 (App Router, Turbopack) · React 19 · TypeScript (strict) · Tailwind CSS 4 ·
+Next.js 16 (App Router, Turbopack) · React 19 · TypeScript (strict) · Tailwind CSS 4 ·
 deployed on Vercel's free tier. No database, no API routes, no server runtime:
 every page is statically prerendered. Keep it that way unless an ADR says otherwise.
 
@@ -39,6 +39,7 @@ docs/                 Roadmap, deployment, video brief, and decision records (do
 
 ## Conventions
 
+- ESLint uses the native flat config (`eslint.config.mjs`, `eslint-config-next` 16); no `FlatCompat`.
 - Prettier is the formatter (`.prettierrc`: single quotes, semicolons, 2 spaces). Don't hand-format.
 - Content lives in `src/content/site.ts`; components take props and stay presentational.
 - Server Components by default. Add `'use client'` only when state/effects/events require it.
@@ -70,6 +71,7 @@ docs/                 Roadmap, deployment, video brief, and decision records (do
 - Make a plan for non-trivial work; keep changes small and reviewable.
 - Run `npm run check` and `npm run build` before declaring work done, and say plainly if you couldn't.
 - Never commit or push without being asked. PRs go from a feature branch into `main`; `main` is what Vercel deploys.
+- Keep dependencies current: run `npm audit` and `npm outdated` periodically. Stay on `next@latest`; majors of TypeScript/ESLint wait until `eslint-config-next` supports them.
 - Don't add dependencies lightly. This site should stay tiny and fast; justify any new package in the PR.
 - Record meaningful technical choices as a short ADR in `docs/adr/`. Track work in `docs/ROADMAP.md`.
 - Don't delete the owner's content or assets without asking; prefer moving to `public/` or noting it in the roadmap.

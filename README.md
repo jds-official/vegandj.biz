@@ -3,7 +3,7 @@
 Portfolio site for **Grand Format**, a vegan vinyl wedding DJ serving the Hudson Valley, NY.
 A visitor lands on a short reel, learns what's offered, and books through an embedded contact form.
 
-Built with Next.js 15, React 19, TypeScript and Tailwind CSS 4. Statically generated and hosted on Vercel's free tier.
+Built with Next.js 16, React 19, TypeScript and Tailwind CSS 4. Statically generated and hosted on Vercel's free tier.
 
 ## Quick start
 
