@@ -1,18 +1,79 @@
 @import 'tailwindcss';
 
 @theme inline {
-  --font-sans: var(--font-roboto);
-  --font-script: var(--font-bad-script);
+  /* Fonts are loaded in src/app/layout.tsx via next/font. `inline` is required:
+     the next/font variables live on <body>, not :root. Plain CSS in this file
+     must reference --font-audiowide / --font-atkinson directly. */
+  --font-display: var(--font-audiowide);
+  --font-sans: var(--font-atkinson);
   --breakpoint-xs: 25rem;
 }
 
-html {
-  scroll-behavior: smooth;
+/*
+ * Fluid type scale. Each step scales linearly with the viewport between 320px
+ * and 1440px, then holds: clamp(min, intercept + slope * vw, max).
+ *   slope     = (maxPx - minPx) / (1440 - 320)   -> expressed in vw
+ *   intercept = (minPx - slope * 320) / 16       -> expressed in rem
+ * Every value is rem-based (the intercept and the min/max), so text still
+ * honours the browser's font-size setting and zooms to 200% (WCAG 1.4.4).
+ * To retune a step, recompute with the formula above; do not hand-nudge numbers.
+ * Used as `text-display`, `text-headline`, `text-title`, `text-lead`, `text-body`.
+ *
+ *   step      320px   1440px
+ *   body       18px     20px
+ *   lead       20px     24px
+ *   title      22px     28px
+ *   headline   28px     48px
+ *   display    28px     72px
+ */
+@theme {
+  --text-display: clamp(1.75rem, 0.9643rem + 3.9286vw, 4.5rem);
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.02em;
+  --text-headline: clamp(1.75rem, 1.3929rem + 1.7857vw, 3rem);
+  --text-headline--line-height: 1.15;
+  --text-headline--letter-spacing: -0.01em;
+  --text-title: clamp(1.375rem, 1.2679rem + 0.5357vw, 1.75rem);
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: 0.01em;
+  --text-lead: clamp(1.25rem, 1.1786rem + 0.3571vw, 1.5rem);
+  --text-lead--line-height: 1.6;
+  --text-body: clamp(1.125rem, 1.0893rem + 0.1786vw, 1.25rem);
+  --text-body--line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Single light theme: sections use fixed rose/white backgrounds. */
 body {
   background: #ffffff;
   color: #171717;
-  font-family: var(--font-sans);
+  font-family: var(--font-atkinson);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height); /* >= 1.5 per WCAG 1.4.8 */
+}
+
+@layer base {
+  /* Headings share the body face (Atkinson) at heavier weights. Audiowide
+     (`font-display`) is reserved for the header wordmark and is opted into
+     explicitly, never inherited. */
+  h1,
+  h2,
+  h3 {
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-weight: 800;
+  }
+
+  /* Keep line length comfortable (WCAG 1.4.8: <= 80 characters). */
+  p {
+    max-width: 65ch;
+  }
 }

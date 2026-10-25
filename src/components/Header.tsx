@@ -25,23 +25,32 @@ export default function Header() {
         showHeader ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      <a href="#top" className="font-script text-2xl">
+      <a
+        href="#top"
+        className="font-display text-xl whitespace-nowrap sm:text-title"
+      >
         {site.name}
       </a>
-      <nav className="flex items-center gap-4 text-sm">
+      <nav className="flex items-center gap-4 text-base">
         <a
           href={site.social.instagram}
           target="_blank"
           rel="noopener noreferrer"
+          className="hidden sm:inline"
         >
           Instagram
         </a>
-        <a href={site.social.tiktok} target="_blank" rel="noopener noreferrer">
+        <a
+          href={site.social.tiktok}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden sm:inline"
+        >
           TikTok
         </a>
         <a
           href="#contact"
-          className="rounded-full bg-black px-4 py-2 text-rose-50"
+          className="rounded-full bg-black px-4 py-2 font-bold whitespace-nowrap text-rose-50"
         >
           Book a date
         </a>

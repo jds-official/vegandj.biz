@@ -24,6 +24,12 @@ export const site = {
   contactFormUrl:
     'https://docs.google.com/forms/d/e/1FAIpQLSdqYjGhrfwtyGOmhIiJEG8fElGIOYvPiVo-othNwD1oNAFCHg/viewform?embedded=true',
 
+  hero: {
+    // One entry per line: the hero headline always breaks here, never mid-phrase.
+    headline: ['The vegan vinyl DJ', 'in the Hudson Valley'],
+    sub: 'Vinyl vibes for your weddings, celebrations, anywhere!',
+  },
+
   intro: `I am a vegan DJ living in the Hudson Valley, NY. Ready to spin real vinyl at your wedding, bar mitzvah, family reunion, venue, whatever! The only "killing" that will happen is your friends and family killing it on the dance floor!`,
 
   experience: `I have been DJing professionally for over fifteen years and am a lifelong music nerd. My services include:`,

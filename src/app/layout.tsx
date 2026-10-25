@@ -1,18 +1,21 @@
 import type { Metadata } from 'next';
-import { Roboto, Bad_Script } from 'next/font/google';
+import { Audiowide, Atkinson_Hyperlegible_Next } from 'next/font/google';
 import { site } from '@/content/site';
 import './globals.css';
 
-const roboto = Roboto({
-  variable: '--font-roboto',
+// Brand face: wide, rounded, techno-retro display. Header wordmark only. Single weight (400).
+const audiowide = Audiowide({
+  variable: '--font-audiowide',
   subsets: ['latin'],
+  weight: '400',
   display: 'swap',
 });
 
-const badScript = Bad_Script({
-  variable: '--font-bad-script',
+// Text face for body AND headings: designed by the Braille Institute for maximum
+// character distinction and legibility. Variable weight (200-800).
+const atkinson = Atkinson_Hyperlegible_Next({
+  variable: '--font-atkinson',
   subsets: ['latin'],
-  weight: '400', // Bad Script only supports 400
   display: 'swap',
 });
 
@@ -35,7 +38,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} ${badScript.variable} antialiased`}>
+      <body
+        className={`${audiowide.variable} ${atkinson.variable} antialiased`}
+      >
         {children}
       </body>
     </html>

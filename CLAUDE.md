@@ -44,7 +44,7 @@ docs/                 Roadmap, deployment, video brief, and decision records (do
 - Content lives in `src/content/site.ts`; components take props and stay presentational.
 - Server Components by default. Add `'use client'` only when state/effects/events require it.
 - Styling is Tailwind utilities only. Single light theme (rose-50 / white); no dark mode yet.
-- Fonts: Roboto (`font-sans`) and Bad Script (`font-script`, headings and brand), via `next/font`.
+- Fonts: Atkinson Hyperlegible Next (`font-sans`; body and all headings, chosen for legibility) and Audiowide (`font-display`; header wordmark only, opt in explicitly). Loaded via `next/font` in `layout.tsx`. A fluid, rem-based type scale (`text-display`, `-headline`, `-title`, `-lead`, `-body`) lives in `globals.css` with its derivation formula; use those tokens instead of ad-hoc sizes, and recompute rather than hand-nudge values.
 - Images: use `next/image` for local files. Keep the free-tier image-optimisation
   quota in mind; don't add many large images.
 - Accessibility is a baseline, not a nice-to-have: meaningful `alt`, labelled buttons/iframes, keyboard-operable controls.

@@ -30,7 +30,7 @@ export default function YouTubeEmbed({
       <div
         className={`aspect-video w-full rounded-lg bg-neutral-900 text-neutral-300 grid place-items-center ${className}`}
       >
-        <p className="font-script text-2xl">Reel coming soon</p>
+        <p className="text-title font-bold">Reel coming soon</p>
       </div>
     );
   }
