@@ -1,53 +1,51 @@
-// src/components/Header.tsx
 'use client';
 
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { site } from '@/content/site';
 
 export default function Header() {
   const [showHeader, setShowHeader] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
 
+  // Hide on scroll down, reveal on scroll up (after the first 200px).
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      // Only trigger after scrolling more than 100px
-      if (currentScrollY > 200) {
-        setShowHeader(currentScrollY < lastScrollY);
-      } else {
-        setShowHeader(true);
-      }
-
-      setLastScrollY(currentScrollY);
+      const current = window.scrollY;
+      setShowHeader(current <= 200 || current < lastScrollY.current);
+      lastScrollY.current = current;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   return (
-    <div
-      className={`p-4 flex justify-between fixed top-0 bg-rose-50 w-full z-50 transition-transform duration-300 ${
+    <header
+      className={`fixed top-0 z-50 flex w-full items-center justify-between bg-rose-50 p-4 transition-transform duration-300 ${
         showHeader ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      <h1 className="font-script text-2xl">James David Saul</h1>
-      <div className="flex gap-4">
+      <a href="#top" className="font-script text-2xl">
+        {site.name}
+      </a>
+      <nav className="flex items-center gap-4 text-sm">
         <a
-          href="https://www.tiktok.com/@djgrandformat"
+          href={site.social.instagram}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <span className="sr-only">TikTok</span>
-          <Image
-            src="/icons/tiktok.svg"
-            alt="TikTok icon"
-            width={32}
-            height={32}
-          />
+          Instagram
         </a>
-      </div>
-    </div>
+        <a href={site.social.tiktok} target="_blank" rel="noopener noreferrer">
+          TikTok
+        </a>
+        <a
+          href="#contact"
+          className="rounded-full bg-black px-4 py-2 text-rose-50"
+        >
+          Book a date
+        </a>
+      </nav>
+    </header>
   );
 }

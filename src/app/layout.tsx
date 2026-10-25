@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Roboto, Bad_Script } from 'next/font/google';
+import { site } from '@/content/site';
 import './globals.css';
 
 const roboto = Roboto({
@@ -16,11 +17,14 @@ const badScript = Bad_Script({
 });
 
 export const metadata: Metadata = {
-  title: 'jamesdavidsaul.net',
-  description:
-    'James David Saul is a web developer, photographer, and birder living in the Hudson Valley, NY',
+  metadataBase: new URL(site.url),
+  title: `${site.name} | Vegan Vinyl Wedding DJ | ${site.region}`,
+  description: `${site.name} is a vegan vinyl DJ for weddings, bar mitzvahs, reunions and venues in the ${site.region}. Fifteen years of professional experience, two turntables and a microphone.`,
   openGraph: {
-    images: 'images/jds.png',
+    title: `${site.name} | ${site.tagline}`,
+    description: `Vinyl DJ in the ${site.region}.`,
+    url: site.url,
+    images: '/images/grand-format-djing.webp',
   },
 };
 
