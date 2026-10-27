@@ -1,30 +1,8 @@
-# dependencies
-/node_modules
-
-# next.js
-/.next/
-/out/
-next-env.d.ts
-
-# production
-/build
-
-# misc
+/vendor/
+/web
+/html
+/drush
+.idea
+development.settings.yml
+node_modules
 .DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-
-# env files (never commit secrets)
-.env*
-!.env.example
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-
-# claude code (personal overrides only; .claude/settings.json is shared)
-.claude/settings.local.json
