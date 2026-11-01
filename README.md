@@ -7,7 +7,7 @@ Built with Next.js 16, React 19, TypeScript and Tailwind CSS 4. Statically gener
 
 ## Quick start
 
-Requires Node 20.9 or newer.
+Requires Node 20.19+, 22.13+ or 24+ (ESLint 10's range).
 
 ```bash
 npm install
