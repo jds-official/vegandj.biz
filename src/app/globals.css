@@ -1,14 +1,15 @@
 @import 'tailwindcss';
 
 /*
- * Hero palette, pulled from the photo: blue-black ink for text, and a softened
- * version of the hair pink for the sign and the call to action. AAA (>= 7:1):
- *   display on party  9.9:1     display-glow on display  11.6:1 (unused for now)
+ * Hero palette. `brown` is the owner's brown (#4c2a11, sampled from their
+ * swatch) and is the text and border color on every pink surface; `party` is
+ * the hair pink, lightened just enough to pass. AAA needs >= 7:1:
+ *   brown on party  7.66:1    (the earlier #f6a9c4 pink only reached 6.92:1)
+ * Re-check this pair whenever either color changes.
  */
 @theme {
-  --color-display: #0e1620;
-  --color-display-glow: #ffc46b;
-  --color-party: #f6a9c4;
+  --color-brown: #381c09;
+  --color-party: #f7b7ce;
 }
 
 @theme inline {
@@ -116,24 +117,22 @@ body {
   container-type: inline-size;
 }
 
-/* The sign in the mirror. A plain rotated box (no skew, so the letters are
-   never distorted) whose top-left corner sits on the top-left corner of the
-   mirror glass, about 32.9% across and 10.8% down the photo. It is tilted
-   11 degrees counterclockwise (the mirror's top edge climbs about 16) and
-   kept compact so it stays clear of the DJ's head. Ink on soft pink is
-   9.9:1. Sizes are in cqw of the stage, so it scales with the photo. */
+/* The sign in the mirror. A plain upright box, centered across the mirror
+   glass (about 52% across the photo) and set near the top, above the DJ's
+   head. No rotation, so the letters are never tilted or distorted. Brown on
+   soft pink is 7.66:1. Sizes are in cqw of the stage, so it scales with the
+   photo. */
 .mirror-sign {
   position: absolute;
-  left: calc(32.9% + 0.7cqw);
-  top: calc(10.8% + 0.9cqw);
+  left: 52%;
+  top: 3%;
   width: max-content; /* hugs the one-line tagline */
   padding: 1cqw 1.2cqw 1.1cqw;
-  transform-origin: 0 0;
-  transform: rotate(-11deg);
+  transform: translateX(-50%);
   text-align: center;
-  color: var(--color-display);
+  color: var(--color-brown);
   background: var(--color-party);
-  border: 0.16cqw solid var(--color-display);
+  border: 0.16cqw solid var(--color-brown);
   border-radius: 1.2cqw;
   box-shadow: 0 0.5cqw 1.4cqw rgb(0 0 0 / 0.4);
 }
@@ -142,7 +141,7 @@ body {
   font-family: var(--font-audiowide);
   font-weight: 400;
   font-synthesis: none;
-  font-size: 2.3cqw;
+  font-size: 2.7cqw;
   line-height: 1.1;
   letter-spacing: 0.01em;
 }
@@ -170,7 +169,7 @@ body {
   padding: 0 2rem;
   white-space: nowrap;
   font-size: var(--text-lead);
-  color: var(--color-display);
+  color: var(--color-brown);
   background: var(--color-party);
   border-radius: 999px;
   box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.45);
