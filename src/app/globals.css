@@ -119,17 +119,17 @@ body {
 /* The sign in the mirror. A plain rotated box (no skew, so the letters are
    never distorted) whose top-left corner sits on the top-left corner of the
    mirror glass, about 32.9% across and 10.8% down the photo. It is tilted
-   15 degrees counterclockwise to follow the mirror's top edge (about 16).
-   Roughly square so it stays compact and clear of the DJ's head. Ink on soft
-   pink is 9.9:1. Sizes are in cqw of the stage, so it scales with the photo. */
+   11 degrees counterclockwise (the mirror's top edge climbs about 16) and
+   kept compact so it stays clear of the DJ's head. Ink on soft pink is
+   9.9:1. Sizes are in cqw of the stage, so it scales with the photo. */
 .mirror-sign {
   position: absolute;
   left: calc(32.9% + 0.7cqw);
   top: calc(10.8% + 0.9cqw);
-  width: 21.5cqw;
-  padding: 1cqw 1cqw 1.1cqw;
+  width: max-content; /* hugs the one-line tagline */
+  padding: 1cqw 1.2cqw 1.1cqw;
   transform-origin: 0 0;
-  transform: rotate(-10.5deg);
+  transform: rotate(-11deg);
   text-align: center;
   color: var(--color-display);
   background: var(--color-party);
@@ -145,16 +145,15 @@ body {
   font-size: 2.3cqw;
   line-height: 1.1;
   letter-spacing: 0.01em;
-  text-wrap: balance; /* "Grand" over "Format" */
 }
 
 .mirror-sign-sub {
   max-width: none;
   margin-top: 0.4cqw;
   font-weight: 700;
-  font-size: 1cqw;
+  font-size: 1.35cqw;
   line-height: 1.3;
-  text-wrap: balance;
+  white-space: nowrap; /* the tagline stays on one line */
 }
 
 /* "Let's Party!" sits at the bottom of the window, on the dark road cases.
