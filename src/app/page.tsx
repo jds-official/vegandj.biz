@@ -35,11 +35,9 @@ export default function Home() {
             href={site.photoCredit.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="photo-credit"
+            className="photo-credit wipe-link"
           >
-            <span className="photo-credit-text">
-              Photo by {site.photoCredit.name}
-            </span>
+            <span className="wipe-line">Photo by {site.photoCredit.name}</span>
             {/* Always-visible "opens elsewhere" cue, so touch users (who
                 never see the hover line) can still tell this is a link. */}
             <svg

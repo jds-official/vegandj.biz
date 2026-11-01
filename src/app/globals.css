@@ -170,7 +170,7 @@ body {
   min-height: 2.75rem;
   padding: 0 2rem;
   white-space: nowrap;
-  font-size: var(--text-lead);
+  font-size: 1.5rem; /* static: does not scale with the window */
   color: var(--color-brown);
   background: var(--color-party);
   border-radius: 999px;
@@ -182,14 +182,14 @@ body {
    user's text size; 44px minimum target height (WCAG 2.5.5). */
 .photo-credit {
   position: absolute;
-  right: 1rem;
+  right: 0.75rem;
   bottom: 0.75rem;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  min-height: 2.75rem;
-  padding: 0 1rem;
-  font-size: 1.25rem;
+  min-height: 2rem;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--color-party);
   background: var(--color-brown);
@@ -198,19 +198,30 @@ body {
   text-decoration: none;
 }
 
+/* The box is 2rem tall, so an invisible extension adds 0.375rem above and
+   below to reach the 44px (2.75rem) target size AAA asks for (WCAG 2.5.5)
+   without changing how it looks. Pointer events on the extension count as the
+   link's. */
+.photo-credit::after {
+  content: '';
+  position: absolute;
+  inset: -0.375rem 0;
+}
+
 .photo-credit-icon {
   width: 0.9em;
   height: 0.9em;
   flex: none;
 }
 
-/* The underline is drawn, not `text-decoration`: the browser's underline
-   dodges descenders ("skip-ink"), which chops it around the cedilla in
-   "Tulça". This line sits just below the lowest part of the letters, so the
-   cedilla is never touched. It wipes in left to right on hover or keyboard
-   focus. On leaving, the background anchor flips to the right edge, so the line
-   keeps travelling left to right and wipes out the other side. */
-.photo-credit-text {
+/* Used by the photo credit (`.wipe-link` with a `.wipe-line` span around its
+   text). The "Let's Party!" button deliberately has no underline. The underline is drawn, not `text-decoration`: the
+   browser's underline dodges descenders ("skip-ink"), which chops it around
+   the cedilla in "Tulça". This line sits just below the lowest part of the
+   letters, so the cedilla is never touched. It wipes in left to right on hover
+   or keyboard focus. On leaving, the background anchor flips to the right edge,
+   so the line keeps travelling left to right and wipes out the other side. */
+.wipe-line {
   padding-bottom: 0.12em;
   background: linear-gradient(currentColor, currentColor) no-repeat;
   background-size: 0 2px;
@@ -218,16 +229,17 @@ body {
   transition: background-size 300ms ease;
 }
 
-.photo-credit:hover .photo-credit-text,
-.photo-credit:focus-visible .photo-credit-text {
+.wipe-link:hover .wipe-line,
+.wipe-link:focus-visible .wipe-line {
   background-size: 100% 2px;
   background-position: 0 100%;
 }
 
-/* Keyboard focus: the line plus a three-ring indicator (brown, pink, brown)
-   that keeps 3:1 contrast against both the box and any photo behind it
+/* Keyboard focus (credit link and button): a three-ring indicator (brown, pink, brown)
+   that keeps 3:1 contrast against both the element and any photo behind it
    (WCAG 2.4.7 / 2.4.13). The transparent outline survives forced-colors mode. */
-.photo-credit:focus-visible {
+.wipe-link:focus-visible,
+.hero-cta:focus-visible {
   outline: 3px solid transparent;
   box-shadow:
     0 0 0 3px var(--color-brown),
@@ -237,7 +249,22 @@ body {
 
 /* No motion for people who ask for none: the line simply appears. */
 @media (prefers-reduced-motion: reduce) {
-  .photo-credit-text {
+  .wipe-line {
     transition: none;
+  }
+}
+
+/* Below 1024px the credit moves to the bottom center and the button rises
+   above it, leaving a 1.5rem gap (credit is 2rem tall, 0.75rem off the
+   bottom). From 1024px up the credit stays bottom right. */
+@media (max-width: 63.99rem) {
+  .photo-credit {
+    right: auto;
+    left: 50%;
+    translate: -50% 0;
+  }
+
+  .hero-cta {
+    bottom: 4.25rem;
   }
 }
