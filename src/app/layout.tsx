@@ -1,18 +1,22 @@
 import type { Metadata } from 'next';
-import { Roboto, Bad_Script } from 'next/font/google';
+import { Audiowide, Lexend } from 'next/font/google';
 import { site } from '@/content/site';
 import './globals.css';
 
-const roboto = Roboto({
-  variable: '--font-roboto',
+// Brand face: wide, rounded, techno-retro display. Header wordmark only. Single weight (400).
+const audiowide = Audiowide({
+  variable: '--font-audiowide',
   subsets: ['latin'],
+  weight: '400',
   display: 'swap',
 });
 
-const badScript = Bad_Script({
-  variable: '--font-bad-script',
+// Text face for body and the other headings. Lexend is designed around reading
+// proficiency research, has clearly distinct letterforms, and (unlike Atkinson
+// Hyperlegible) a plain, un-slashed zero. Variable weight (100-900).
+const lexend = Lexend({
+  variable: '--font-lexend',
   subsets: ['latin'],
-  weight: '400', // Bad Script only supports 400
   display: 'swap',
 });
 
@@ -24,7 +28,7 @@ export const metadata: Metadata = {
     title: `${site.name} | ${site.tagline}`,
     description: `Vinyl DJ in the ${site.region}.`,
     url: site.url,
-    images: '/images/grand-format-djing.webp',
+    images: '/images/hero-dj-turntables.webp',
   },
 };
 
@@ -35,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} ${badScript.variable} antialiased`}>
+      <body className={`${audiowide.variable} ${lexend.variable} antialiased`}>
         {children}
       </body>
     </html>
