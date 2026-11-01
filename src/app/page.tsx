@@ -82,15 +82,16 @@ export default function Home() {
               </iframe>
             </div>
           </div>
-          {/* Logo: half the form's width, centered, 3rem above and below. */}
+          {/* Logo: 75% of the form's width at every size, centered, with 3rem
+              above and below. */}
           <div className="mx-auto max-w-3xl px-4 py-12">
             <Image
               src="/images/grand-format-logo.webp"
               alt={site.logoAlt}
-              width={800}
-              height={316}
-              sizes="(min-width: 48rem) 368px, calc((100vw - 2rem) / 2)"
-              className="mx-auto h-auto w-1/2"
+              width={1600}
+              height={632}
+              sizes="(min-width: 48rem) 552px, calc((100vw - 2rem) * 0.75)"
+              className="mx-auto h-auto w-3/4"
             />
           </div>
         </section>
