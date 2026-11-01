@@ -113,7 +113,14 @@ body {
   position: absolute;
   width: var(--stage-w);
   aspect-ratio: 3 / 2;
-  left: calc((100cqw - var(--stage-w)) * 0.5);
+  /* Nudge the photo left by --stage-shift (0 by default) to bring the DJ, who
+     stands right of the photo's center, nearer the window's center. Capped at
+     half the photo's overhang, so it can never expose a gap at the right. */
+  --stage-shift: 0px;
+  left: calc(
+    (100cqw - var(--stage-w)) * 0.5 -
+      min(var(--stage-shift), (var(--stage-w) - 100cqw) * 0.5)
+  );
   top: calc((100cqh - var(--stage-w) / 1.5) * 0.1);
   container-type: inline-size;
 }
@@ -267,5 +274,20 @@ body {
 
   .hero-cta {
     bottom: 4.25rem;
+  }
+}
+
+/* Below 500px (phones) shift the photo 80px left, the same idea as below. */
+@media (max-width: 31.24rem) {
+  .hero-stage {
+    --stage-shift: 80px;
+  }
+}
+
+/* From 500px to 1023px wide the window is narrow enough to crop the photo, so
+   shift it 90px left to put the DJ closer to the window's center. */
+@media (min-width: 31.25rem) and (max-width: 63.99rem) {
+  .hero-stage {
+    --stage-shift: 90px;
   }
 }
