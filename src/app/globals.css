@@ -117,14 +117,15 @@ body {
   container-type: inline-size;
 }
 
-/* The sign in the mirror. A plain upright box, centered across the mirror
-   glass (about 52% across the photo) and set near the top, above the DJ's
+/* The sign in the mirror. A plain upright box, centered on the window
+   (the stage is always centered, so 50% of it is the window's center, about
+   2% left of the mirror's own center) and set near the top, above the DJ's
    head. No rotation, so the letters are never tilted or distorted. Brown on
    soft pink is 7.66:1. Sizes are in cqw of the stage, so it scales with the
    photo. */
 .mirror-sign {
   position: absolute;
-  left: 52%;
+  left: 50%; /* the stage is always centered in the window, so this is window-centered */
   top: 3%;
   width: max-content; /* hugs the one-line tagline */
   padding: 1cqw 1.2cqw 1.1cqw;
