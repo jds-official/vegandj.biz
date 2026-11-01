@@ -17,9 +17,9 @@
 @theme inline {
   /* Fonts are loaded in src/app/layout.tsx via next/font. `inline` is required:
      the next/font variables live on <body>, not :root. Plain CSS in this file
-     must reference --font-audiowide / --font-atkinson directly. */
+     must reference --font-audiowide / --font-lexend directly. */
   --font-display: var(--font-audiowide);
-  --font-sans: var(--font-atkinson);
+  --font-sans: var(--font-lexend);
   --breakpoint-xs: 25rem;
 }
 
@@ -66,13 +66,13 @@
 body {
   background: #ffffff;
   color: #171717;
-  font-family: var(--font-atkinson);
+  font-family: var(--font-lexend);
   font-size: var(--text-body);
   line-height: var(--text-body--line-height); /* >= 1.5 per WCAG 1.4.8 */
 }
 
 @layer base {
-  /* Headings share the body face (Atkinson) at heavier weights. Audiowide
+  /* Headings share the body face (Lexend) at heavier weights. Audiowide
      (`font-display`) is reserved for the header wordmark and is opted into
      explicitly, never inherited. */
   h1,
@@ -144,13 +144,14 @@ body {
 .mirror-sign {
   position: absolute;
   /* --u is 1% of the photo's width, with two limits so the sign stays usable
-     from 320px up. Ceiling: the sign is 28.3 u wide (one-line tagline plus
-     padding), so u is capped to keep 1rem free on each side of the window.
-     Floor: 0.625rem, so the tagline (1.35 u) never drops below about 13.5px,
-     even in a short window where the photo itself is small. */
+     from 320px up. Ceiling: the sign is 30.7 u wide (one-line tagline plus
+     padding, measured with Lexend), so u is capped to keep 0.75rem free on
+     each side of the window. Floor: 0.6rem, so the tagline (1.35 u) never
+     drops below about 13px, even in a short window where the photo is small.
+     Re-measure 30.7 if the font, the copy or the padding change. */
   --u: max(
-    0.625rem,
-    min(calc(max(100cqw, 150cqh) / 100), calc((100cqw - 2rem) / 28.3))
+    0.6rem,
+    min(calc(max(100cqw, 150cqh) / 100), calc((100cqw - 1.5rem) / 30.7))
   );
   left: 50%; /* window-centered, matching the button */
   top: 3cqh; /* 3% of the hero's height */
@@ -379,7 +380,8 @@ body {
    that keeps 3:1 contrast against both the element and any photo behind it
    (WCAG 2.4.7 / 2.4.13). The transparent outline survives forced-colors mode. */
 .wipe-link:focus-visible,
-.hero-cta:focus-visible {
+.hero-cta:focus-visible,
+.site-footer a:focus-visible {
   outline: 3px solid transparent;
   box-shadow:
     0 0 0 3px var(--color-brown),
@@ -422,6 +424,50 @@ body {
   .hero-stage {
     --stage-shift: 90px;
   }
+}
+
+/* The contact panel slides up over the hero, which stays pinned behind it.
+   Skipped for people who ask for reduced motion: the hero then scrolls away
+   like any other section. (`position: sticky` rather than a fixed background,
+   because fixed backgrounds are unreliable in iOS Safari.) */
+@media (prefers-reduced-motion: no-preference) {
+  .hero {
+    position: sticky;
+    top: 0;
+  }
+}
+
+.contact-panel {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  color: var(--color-brown);
+  background: var(--color-party);
+  border-radius: 1.5rem 1.5rem 0 0;
+  box-shadow: 0 -1rem 2.5rem rgb(0 0 0 / 0.4);
+}
+
+/* Google's form is its own page with its own colors; we only frame it. */
+.contact-frame {
+  overflow: hidden;
+  background: #ffffff;
+  border: 3px solid var(--color-brown);
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1.5rem rgb(56 28 9 / 0.35);
+}
+
+.site-footer {
+  color: var(--color-brown);
+  background: var(--color-party);
+}
+
+.site-footer a {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.site-footer a:hover {
+  text-decoration-thickness: 0.15em;
 }
 
 /* Browsers without lvh/svh: no bars to allow for. */

@@ -1,7 +1,7 @@
 # vegandj.biz
 
 Portfolio site for **Grand Format**, a vegan vinyl wedding DJ serving the Hudson Valley, NY.
-A visitor lands on a short reel, learns what's offered, and books through an embedded contact form.
+A visitor lands on a full-screen photo, scrolls up a pink contact panel that slides over it, and books through an embedded contact form.
 
 Built with Next.js 16, React 19, TypeScript and Tailwind CSS 4. Statically generated and hosted on Vercel's free tier.
 
@@ -23,8 +23,8 @@ npm run dev     # http://localhost:3000
 
 ## Editing content
 
-All copy, links and the homepage reel live in [`src/content/site.ts`](src/content/site.ts).
-To publish the reel, upload it to YouTube and paste its video ID into `reelVideoId`.
+All copy and links live in [`src/content/site.ts`](src/content/site.ts).
+The homepage reel is parked (see the roadmap); when it returns, paste its YouTube ID into `reelVideoId`.
 Guidance on what the reel should be: [docs/video-reel-brief.md](docs/video-reel-brief.md).
 
 ## Documentation

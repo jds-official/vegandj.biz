@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Audiowide, Atkinson_Hyperlegible_Next } from 'next/font/google';
+import { Audiowide, Lexend } from 'next/font/google';
 import { site } from '@/content/site';
 import './globals.css';
 
@@ -11,10 +11,11 @@ const audiowide = Audiowide({
   display: 'swap',
 });
 
-// Text face for body AND headings: designed by the Braille Institute for maximum
-// character distinction and legibility. Variable weight (200-800).
-const atkinson = Atkinson_Hyperlegible_Next({
-  variable: '--font-atkinson',
+// Text face for body and the other headings. Lexend is designed around reading
+// proficiency research, has clearly distinct letterforms, and (unlike Atkinson
+// Hyperlegible) a plain, un-slashed zero. Variable weight (100-900).
+const lexend = Lexend({
+  variable: '--font-lexend',
   subsets: ['latin'],
   display: 'swap',
 });
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     title: `${site.name} | ${site.tagline}`,
     description: `Vinyl DJ in the ${site.region}.`,
     url: site.url,
-    images: '/images/grand-format-djing.webp',
+    images: '/images/hero-dj-turntables.webp',
   },
 };
 
@@ -38,9 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${audiowide.variable} ${atkinson.variable} antialiased`}
-      >
+      <body className={`${audiowide.variable} ${lexend.variable} antialiased`}>
         {children}
       </body>
     </html>

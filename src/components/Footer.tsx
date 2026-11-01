@@ -1,8 +1,9 @@
 import { site } from '@/content/site';
 
+/** Same pink and brown as the contact panel it follows (9.43:1). */
 export default function Footer() {
   return (
-    <footer className="bg-rose-50 p-8 text-center">
+    <footer className="site-footer p-8 text-center">
       <nav className="mb-4 flex justify-center gap-6">
         <a
           href={site.social.instagram}

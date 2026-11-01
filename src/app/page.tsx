@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Footer from '@/components/Footer';
-import YouTubeEmbed from '@/components/YouTubeEmbed';
+import HeroLinkGuard from '@/components/HeroLinkGuard';
 import { site } from '@/content/site';
 
 export default function Home() {
@@ -28,7 +28,7 @@ export default function Home() {
             <h1 className="mirror-sign-title">{site.name}</h1>
             <p className="mirror-sign-sub">{site.hero.tagline}</p>
           </div>
-          <a href="#contact" className="hero-cta font-display">
+          <a href="#contact" className="hero-cta font-display" data-hero-link>
             {site.hero.cta}
           </a>
           <a
@@ -36,6 +36,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
             className="photo-credit wipe-link"
+            data-hero-link
           >
             <span className="wipe-line">Photo by {site.photoCredit.name}</span>
             {/* Always-visible "opens elsewhere" cue, so touch users (who
@@ -58,65 +59,33 @@ export default function Home() {
           </a>
         </section>
 
-        <section className="bg-rose-50 px-4 py-16 text-center">
-          <h2 className="mx-auto max-w-3xl text-headline">
-            {site.reel.heading}
-          </h2>
-          <div className="mx-auto mt-8 max-w-4xl">
-            <YouTubeEmbed
-              videoId={site.reelVideoId}
-              title={`${site.name} wedding DJ reel`}
-            />
-          </div>
-        </section>
-
-        <section className="mx-auto grid max-w-5xl items-center gap-8 px-4 py-16 md:grid-cols-2">
-          <Image
-            src="/images/grand-format-djing.webp"
-            alt="Portrait of Grand Format DJing."
-            width={800}
-            height={800}
-            className="h-auto w-full rounded-lg"
-          />
-          <p className="text-lead">{site.intro}</p>
-        </section>
-
-        <section className="bg-rose-50 px-4 py-16">
-          <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-2">
-            <div>
-              <p className="text-lead">{site.experience}</p>
-              <ul className="mt-4 list-disc space-y-2 pl-6">
-                {site.services.map((service) => (
-                  <li key={service}>{service}</li>
-                ))}
-              </ul>
-              <p className="mt-4 italic">References available on request</p>
+        {/* The form panel slides up over the pinned hero (see `.hero` and
+            `.contact-panel`). Pink with brown text (9.43:1). The Google form
+            inside is Google's own page, so only the frame around it is ours. */}
+        <section
+          id="contact"
+          aria-labelledby="contact-heading"
+          className="contact-panel"
+        >
+          <div className="mx-auto max-w-3xl px-4 py-16">
+            <h2 id="contact-heading" className="mb-8 text-center text-headline">
+              Let&apos;s talk about your event
+            </h2>
+            <div className="contact-frame">
+              <iframe
+                src={site.contactFormUrl}
+                title={`Contact ${site.name}`}
+                loading="lazy"
+                className="h-[900px] w-full border-0"
+              >
+                Loading…
+              </iframe>
             </div>
-            <Image
-              src="/images/grand-format-boombox.webp"
-              alt="Picture of an '80s era boombox."
-              width={800}
-              height={800}
-              className="h-auto w-full rounded-lg"
-            />
           </div>
-        </section>
-
-        <section id="contact" className="mx-auto max-w-3xl px-4 py-16">
-          <h2 className="mb-6 text-center text-headline">
-            Let&apos;s talk about your event
-          </h2>
-          <iframe
-            src={site.contactFormUrl}
-            title={`Contact ${site.name}`}
-            loading="lazy"
-            className="h-[900px] w-full border-0"
-          >
-            Loading…
-          </iframe>
         </section>
       </main>
       <Footer />
+      <HeroLinkGuard />
     </>
   );
 }
