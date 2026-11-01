@@ -8,8 +8,8 @@ export default function Home() {
     <>
       <main>
         {/* First screen: the photo fills the whole window at every size. The
-            sign is anchored to the photo (not the window) so it stays in the
-            mirror however the photo is cropped; see `.hero-stage`. */}
+            sign sits 3% down from the top of the window and is sized with the
+            photo; see `.hero-stage` and `.mirror-sign`. */}
         <section className="hero">
           <div className="hero-stage">
             <Image
@@ -23,10 +23,10 @@ export default function Home() {
               // image than 100vw: ask for that, not just the window width.
               sizes="max(100vw, 150vh)"
             />
-            <div className="mirror-sign">
-              <h1 className="mirror-sign-title">{site.name}</h1>
-              <p className="mirror-sign-sub">{site.hero.tagline}</p>
-            </div>
+          </div>
+          <div className="mirror-sign">
+            <h1 className="mirror-sign-title">{site.name}</h1>
+            <p className="mirror-sign-sub">{site.hero.tagline}</p>
           </div>
           <a href="#contact" className="hero-cta font-display">
             {site.hero.cta}
