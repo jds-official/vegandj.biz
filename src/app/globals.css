@@ -457,17 +457,8 @@ body {
 }
 
 .site-footer {
-  color: var(--color-brown);
-  background: var(--color-party);
-}
-
-.site-footer a {
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-}
-
-.site-footer a:hover {
-  text-decoration-thickness: 0.15em;
+  color: var(--color-party);
+  background: var(--color-brown);
 }
 
 /* Browsers without lvh/svh: no bars to allow for. */

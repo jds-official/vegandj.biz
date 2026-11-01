@@ -27,7 +27,6 @@ export const site = {
 
   social: {
     instagram: 'https://www.instagram.com/grandformat',
-    tiktok: 'https://www.tiktok.com/@djgrandformat',
   },
 
   // Public Google Form, embedded as the contact form (carried over from the static site).
