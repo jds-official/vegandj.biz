@@ -7,29 +7,27 @@ export default function Home() {
   return (
     <>
       <main>
-        {/* First screen: the heading band plus a photo that always fills the
-            rest of the window. Same photo at every size; object-position keeps
-            the DJ in frame as the crop changes. */}
-        <div className="flex min-h-svh flex-col">
-          {/* Heading on a solid band, not on the photo, so its contrast never
-              depends on the picture (black on rose-50 is ~19:1). */}
-          <h1 className="shrink-0 bg-rose-50 px-4 py-5 text-center font-display text-display font-normal [font-synthesis:none]">
-            {site.name}
-          </h1>
-          <section className="relative min-h-80 flex-1">
+        {/* First screen: the photo fills the whole window at every size. The
+            sign is anchored to the photo (not the window) so it stays in the
+            mirror however the photo is cropped; see `.hero-stage`. */}
+        <section className="hero">
+          <div className="hero-stage">
             <Image
               src="/images/hero-dj-turntables.webp"
               alt={site.hero.photoAlt}
               fill
               priority
               sizes="100vw"
-              className="object-cover object-[55%_40%]"
             />
-            <a href="#contact" className="hero-cta font-display">
-              {site.hero.cta}
-            </a>
-          </section>
-        </div>
+            <div className="mirror-sign">
+              <h1 className="mirror-sign-title">{site.name}</h1>
+              <p className="mirror-sign-sub">{site.hero.tagline}</p>
+            </div>
+          </div>
+          <a href="#contact" className="hero-cta font-display">
+            {site.hero.cta}
+          </a>
+        </section>
 
         <section className="bg-rose-50 px-4 py-16 text-center">
           <h2 className="mx-auto max-w-3xl text-headline">

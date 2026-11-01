@@ -34,6 +34,7 @@ export const site = {
     'https://docs.google.com/forms/d/e/1FAIpQLSdqYjGhrfwtyGOmhIiJEG8fElGIOYvPiVo-othNwD1oNAFCHg/viewform?embedded=true',
 
   hero: {
+    tagline: 'The vegan vinyl DJ in the Hudson Valley',
     cta: "Let's Party!",
     photoAlt:
       'Grand Format, in a tweed jacket and headphones, leaning over a turntable to cue a pink record, with a second turntable and a crate of records alongside.',
