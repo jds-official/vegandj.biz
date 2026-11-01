@@ -100,9 +100,18 @@ body {
  * locked to the picture at every window shape. Tune the 0.5 / 0.1 pair (they
  * are the position, as fractions) to re-frame the crop.
  */
+/* Always the full height of the screen, including on iPhone Safari. There the
+   address/tool bars slide away as you scroll, so the "large" viewport (lvh) is
+   taller than the "small" one (svh) you see on load. The hero is lvh tall, so
+   the photo already fills the whole screen once the bars collapse and never
+   resizes (or visibly zooms) while they animate. `--bar` is the height of the
+   bars (0 on desktop); the button and credit are measured up from the
+   small-viewport bottom plus `--bar`, so they sit above the bars on load. */
 .hero {
+  --bar: calc(100lvh - 100svh);
   position: relative;
-  height: 100svh;
+  height: 100svh; /* fallback */
+  height: 100lvh;
   min-height: 30rem;
   overflow: hidden;
   container-type: size;
@@ -180,7 +189,9 @@ body {
 .hero-cta {
   position: absolute;
   left: 50%;
-  bottom: max(6%, 4rem); /* stays clear of the photo credit on small screens */
+  bottom: calc(
+    var(--bar) + max(6svh, 4rem)
+  ); /* above the iPhone bars; clear of the credit on small screens */
   translate: -50% 0;
   display: inline-flex;
   align-items: center;
@@ -310,7 +321,7 @@ body {
 .photo-credit {
   position: absolute;
   right: 0.75rem;
-  bottom: 0.75rem;
+  bottom: calc(var(--bar) + 0.75rem);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -394,7 +405,7 @@ body {
   }
 
   .hero-cta {
-    bottom: 4.25rem;
+    bottom: calc(var(--bar) + 4.25rem);
   }
 }
 
@@ -410,5 +421,12 @@ body {
 @media (min-width: 31.25rem) and (max-width: 63.99rem) {
   .hero-stage {
     --stage-shift: 90px;
+  }
+}
+
+/* Browsers without lvh/svh: no bars to allow for. */
+@supports not (height: 100lvh) {
+  .hero {
+    --bar: 0px;
   }
 }
