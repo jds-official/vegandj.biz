@@ -7,7 +7,7 @@ export const site = {
   url: 'https://vegandj.biz',
   /**
    * Alt text for the Peanut Chews logo (public/images/grand-format-logo.webp).
-   * Not rendered right now; kept so the wording is ready when the logo returns.
+   * Shown under the contact form.
    * It carries the artwork's words ("Grand Format") plus what the picture is,
    * for people who know the candy it riffs on.
    */

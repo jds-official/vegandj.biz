@@ -67,7 +67,7 @@ export default function Home() {
           aria-labelledby="contact-heading"
           className="contact-panel"
         >
-          <div className="mx-auto max-w-3xl px-4 py-16">
+          <div className="mx-auto max-w-3xl px-4 pt-16">
             <h2 id="contact-heading" className="mb-8 text-center text-headline">
               Let&apos;s talk about your event
             </h2>
@@ -81,6 +81,17 @@ export default function Home() {
                 Loading…
               </iframe>
             </div>
+          </div>
+          {/* Logo: half the form's width, centered, 3rem above and below. */}
+          <div className="mx-auto max-w-3xl px-4 py-12">
+            <Image
+              src="/images/grand-format-logo.webp"
+              alt={site.logoAlt}
+              width={800}
+              height={316}
+              sizes="(min-width: 48rem) 368px, calc((100vw - 2rem) / 2)"
+              className="mx-auto h-auto w-1/2"
+            />
           </div>
         </section>
       </main>
