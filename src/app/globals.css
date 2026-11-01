@@ -1,5 +1,16 @@
 @import 'tailwindcss';
 
+/*
+ * Hero palette, pulled from the photo: blue-black display glass, amber LED
+ * text, and the pink of the hair for the call to action. AAA (>= 7:1) pairs:
+ *   display-glow on display  11.6:1     display on party  7.4:1
+ */
+@theme {
+  --color-display: #0e1620;
+  --color-display-glow: #ffc46b;
+  --color-party: #ff7aa5;
+}
+
 @theme inline {
   /* Fonts are loaded in src/app/layout.tsx via next/font. `inline` is required:
      the next/font variables live on <body>, not :root. Plain CSS in this file
@@ -76,4 +87,24 @@ body {
   p {
     max-width: 65ch;
   }
+}
+
+/* "Let's Party!" sits at the bottom of the hero photo, on the dark road cases.
+   Sized in rem so it scales with the user's text size; 44px minimum target
+   height (WCAG 2.5.5). */
+.hero-cta {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 2rem;
+  white-space: nowrap;
+  font-size: var(--text-lead);
+  color: var(--color-display);
+  background: var(--color-party);
+  border-radius: 999px;
+  box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.45);
 }

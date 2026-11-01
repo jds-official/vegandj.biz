@@ -5,6 +5,15 @@
 export const site = {
   name: 'Grand Format',
   url: 'https://vegandj.biz',
+  /**
+   * Alt text for the Peanut Chews logo (public/images/grand-format-logo.webp).
+   * Not rendered right now; kept so the wording is ready when the logo returns.
+   * It carries the artwork's words ("Grand Format") plus what the picture is,
+   * for people who know the candy it riffs on.
+   */
+  logoAlt:
+    "Grand Format, original vegan vinyl DJ, since 2006. The logo is drawn as a Goldenberg's Peanut Chews wrapper, with two records on it.",
+
   tagline: 'Vegan vinyl DJ for weddings and events',
   region: 'Hudson Valley, NY',
 
@@ -25,9 +34,13 @@ export const site = {
     'https://docs.google.com/forms/d/e/1FAIpQLSdqYjGhrfwtyGOmhIiJEG8fElGIOYvPiVo-othNwD1oNAFCHg/viewform?embedded=true',
 
   hero: {
-    // One entry per line: the hero headline always breaks here, never mid-phrase.
-    headline: ['The vegan vinyl DJ', 'in the Hudson Valley'],
-    sub: 'Vinyl vibes for your weddings, celebrations, anywhere!',
+    cta: "Let's Party!",
+    photoAlt:
+      'Grand Format, in a tweed jacket and headphones, leaning over a turntable to cue a pink record, with a second turntable and a crate of records alongside.',
+  },
+
+  reel: {
+    heading: 'Vinyl vibes for your weddings, celebrations, anywhere!',
   },
 
   intro: `I am a vegan DJ living in the Hudson Valley, NY. Ready to spin real vinyl at your wedding, bar mitzvah, family reunion, venue, whatever! The only "killing" that will happen is your friends and family killing it on the dance floor!`,

@@ -12,6 +12,10 @@ Status as of 2026-10-25. Update this file when work lands or priorities change.
 - [ ] **Shoot/edit the sizzler reel** ([brief](video-reel-brief.md)), upload to YouTube, set `reelVideoId` in `src/content/site.ts`
 - [ ] Open PR `the-new-world` → `main`
 - [ ] Connect repo to Vercel, deploy, point `vegandj.biz` DNS ([deployment](deployment.md))
+- [x] Photo hero with the headline on a disco-ball display and a "Let's Party!" CTA; sticky header removed
+- [ ] Hero text: replace the removed "Vegan / Vinyl / DJ / Hudson Valley" display with new copy (keep it in crawlable text)
+- [ ] Add one more section between the reel and the contact form (planned; contents TBD)
+- [ ] Peanut Chews logo (`public/images/grand-format-logo.webp`, alt text in `site.ts`) is parked: decide where it lives
 - [ ] Replace placeholder OG image with a purpose-made 1200×630 share image
 
 ## Next

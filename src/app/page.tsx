@@ -1,6 +1,4 @@
-import { Fragment } from 'react';
 import Image from 'next/image';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import YouTubeEmbed from '@/components/YouTubeEmbed';
 import { site } from '@/content/site';
@@ -8,30 +6,41 @@ import { site } from '@/content/site';
 export default function Home() {
   return (
     <>
-      <Header />
-      <main id="top" className="text-black">
-        <section className="bg-rose-50 px-4 pb-12 pt-28 text-center">
-          <h1 className="text-display">
-            {site.hero.headline.map((line, i) => (
-              <Fragment key={line}>
-                {i > 0 && ' '}
-                <span className="block">{line}</span>
-              </Fragment>
-            ))}
+      <main>
+        {/* First screen: the heading band plus a photo that always fills the
+            rest of the window. Same photo at every size; object-position keeps
+            the DJ in frame as the crop changes. */}
+        <div className="flex min-h-svh flex-col">
+          {/* Heading on a solid band, not on the photo, so its contrast never
+              depends on the picture (black on rose-50 is ~19:1). */}
+          <h1 className="shrink-0 bg-rose-50 px-4 py-5 text-center font-display text-display font-normal [font-synthesis:none]">
+            {site.name}
           </h1>
-          <p className="mx-auto mt-2 text-lead">{site.hero.sub}</p>
+          <section className="relative min-h-80 flex-1">
+            <Image
+              src="/images/hero-dj-turntables.webp"
+              alt={site.hero.photoAlt}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-[55%_40%]"
+            />
+            <a href="#contact" className="hero-cta font-display">
+              {site.hero.cta}
+            </a>
+          </section>
+        </div>
+
+        <section className="bg-rose-50 px-4 py-16 text-center">
+          <h2 className="mx-auto max-w-3xl text-headline">
+            {site.reel.heading}
+          </h2>
           <div className="mx-auto mt-8 max-w-4xl">
             <YouTubeEmbed
               videoId={site.reelVideoId}
               title={`${site.name} wedding DJ reel`}
             />
           </div>
-          <a
-            href="#contact"
-            className="mt-8 inline-block rounded-full bg-black px-8 py-3 font-bold text-rose-50"
-          >
-            Check my availability
-          </a>
         </section>
 
         <section className="mx-auto grid max-w-5xl items-center gap-8 px-4 py-16 md:grid-cols-2">

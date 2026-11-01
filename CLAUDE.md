@@ -31,7 +31,7 @@ CI (`.github/workflows/ci.yml`) runs `check` and `build` on every PR.
 
 ```text
 src/app/              layout.tsx (fonts, metadata), page.tsx (the landing page), globals.css
-src/components/       Header, Footer, YouTubeEmbed (click-to-load facade)
+src/components/       Footer, YouTubeEmbed (click-to-load facade); the hero lives in page.tsx
 src/content/site.ts   ALL copy, links, and the reel video ID. Edit content here, not in JSX.
 public/images/        Optimised photos (webp). Add new images here.
 docs/                 Roadmap, deployment, video brief, and decision records (docs/adr/)
@@ -44,7 +44,9 @@ docs/                 Roadmap, deployment, video brief, and decision records (do
 - Content lives in `src/content/site.ts`; components take props and stay presentational.
 - Server Components by default. Add `'use client'` only when state/effects/events require it.
 - Styling is Tailwind utilities only. Single light theme (rose-50 / white); no dark mode yet.
-- Fonts: Atkinson Hyperlegible Next (`font-sans`; body and all headings, chosen for legibility) and Audiowide (`font-display`; header wordmark only, opt in explicitly). Loaded via `next/font` in `layout.tsx`. A fluid, rem-based type scale (`text-display`, `-headline`, `-title`, `-lead`, `-body`) lives in `globals.css` with its derivation formula; use those tokens instead of ad-hoc sizes, and recompute rather than hand-nudge values.
+- Fonts: Atkinson Hyperlegible Next (`font-sans`; body and all headings, including the hero h1, chosen for legibility) and Audiowide (`font-display`; the "Grand Format" h1 and the "Let's Party!" button, opt in explicitly). Loaded via `next/font` in `layout.tsx`. A fluid, rem-based type scale (`text-display`, `-headline`, `-title`, `-lead`, `-body`) lives in `globals.css` with its derivation formula; use those tokens instead of ad-hoc sizes, and recompute rather than hand-nudge values.
+- Hero: one photo at every size (`public/images/hero-dj-turntables.webp`), filling the rest of the first screen below the "Grand Format" h1 (Audiowide, on a solid rose band so its contrast never depends on the picture). It uses `object-cover` with `object-[55%_40%]` to keep the DJ in frame as the crop changes; re-tune that if the photo changes. "Let's Party!" is `.hero-cta` in `globals.css`. Hero colors are tokens (`display`, `display-glow`, `party`) with their AAA ratios beside them; `display-glow` is unused until the hero text returns.
+- There is no sticky header (removed on purpose). Don't add fixed/sticky chrome without checking it never covers content.
 - Images: use `next/image` for local files. Keep the free-tier image-optimisation
   quota in mind; don't add many large images.
 - Accessibility is a baseline, not a nice-to-have: meaningful `alt`, labelled buttons/iframes, keyboard-operable controls.
