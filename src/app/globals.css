@@ -133,7 +133,15 @@ body {
    (the same width as `.hero-stage`), so the sign still scales with the photo. */
 .mirror-sign {
   position: absolute;
-  --u: calc(max(100cqw, 150cqh) / 100);
+  /* --u is 1% of the photo's width, with two limits so the sign stays usable
+     from 320px up. Ceiling: the sign is 28.3 u wide (one-line tagline plus
+     padding), so u is capped to keep 1rem free on each side of the window.
+     Floor: 0.625rem, so the tagline (1.35 u) never drops below about 13.5px,
+     even in a short window where the photo itself is small. */
+  --u: max(
+    0.625rem,
+    min(calc(max(100cqw, 150cqh) / 100), calc((100cqw - 2rem) / 28.3))
+  );
   left: 50%; /* window-centered, matching the button */
   top: 3cqh; /* 3% of the hero's height */
   width: max-content; /* hugs the one-line tagline */
@@ -195,6 +203,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  width: max-content; /* never wraps, even when centered at 320px */
+  white-space: nowrap;
   min-height: 2rem;
   padding: 0 0.5rem;
   font-size: 0.875rem;
