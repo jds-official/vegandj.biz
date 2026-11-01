@@ -13,7 +13,7 @@ Status as of 2026-11-01. Update this file when work lands or priorities change.
 - [ ] Connect repo to Vercel, deploy, point `vegandj.biz` DNS ([deployment](deployment.md))
 - [x] Photo hero with the headline on a disco-ball display and a "Let's Party!" CTA; sticky header removed
 - [x] Peanut Chews logo under the form, centered at 75% of the form's width
-- [ ] Replace placeholder OG image with a purpose-made 1200×630 share image
+- [x] Social card: title, OG description, and a 1200×630 hero image (credit in its alt text)
 
 ## Next
 

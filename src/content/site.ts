@@ -15,6 +15,13 @@ export const site = {
     "Grand Format, original vegan vinyl DJ, since 2006. The logo is drawn as a Goldenberg's Peanut Chews wrapper, with two records on it.",
 
   tagline: 'Vegan vinyl DJ for weddings and events',
+
+  /** Browser tab title and the Open Graph / Twitter title (after "Grand Format |"). */
+  title: 'Vegan Vinyl DJ for Weddings and Events',
+
+  /** Open Graph / Twitter description shown on social cards. */
+  ogDescription:
+    'Grand Format is the vegan vinyl DJ in the Hudson Valley for weddings and events.',
   region: 'Hudson Valley, NY',
 
   /**

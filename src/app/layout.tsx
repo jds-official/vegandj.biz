@@ -20,15 +20,33 @@ const lexend = Lexend({
   display: 'swap',
 });
 
+const ogImage = {
+  // 1200x630 card built by scripts/make-og-image.mjs. The photo is credited
+  // in the alt text (the card image itself carries no text).
+  url: '/images/og-card.jpg',
+  width: 1200,
+  height: 630,
+  alt: `${site.hero.photoAlt} Photo by ${site.photoCredit.name}.`,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: `${site.name} | Vegan Vinyl Wedding DJ | ${site.region}`,
+  title: `${site.name} | ${site.title} | ${site.region}`,
   description: `${site.name} is a vegan vinyl DJ for weddings, bar mitzvahs, reunions and venues in the ${site.region}. Fifteen years of professional experience, two turntables and a microphone.`,
   openGraph: {
-    title: `${site.name} | ${site.tagline}`,
-    description: `Vinyl DJ in the ${site.region}.`,
+    type: 'website',
+    siteName: site.name,
+    locale: 'en_US',
     url: site.url,
-    images: '/images/hero-dj-turntables.webp',
+    title: `${site.name} | ${site.title}`,
+    description: site.ogDescription,
+    images: [ogImage],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${site.name} | ${site.title}`,
+    description: site.ogDescription,
+    images: [ogImage],
   },
 };
 
