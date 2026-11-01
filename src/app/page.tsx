@@ -17,7 +17,11 @@ export default function Home() {
               alt={site.hero.photoAlt}
               fill
               priority
-              sizes="100vw"
+              quality={85}
+              // The photo is drawn at max(window width, 150% of window height)
+              // (see .hero-stage), so a tall phone window needs a much wider
+              // image than 100vw: ask for that, not just the window width.
+              sizes="max(100vw, 150vh)"
             />
             <div className="mirror-sign">
               <h1 className="mirror-sign-title">{site.name}</h1>
