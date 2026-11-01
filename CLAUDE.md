@@ -73,7 +73,9 @@ docs/                 Roadmap, deployment, video brief, and decision records (do
 - The owner tunes values by hand (positions, angles, sizes, copy). Before editing a file, check `git diff` for local changes, treat them as current, and update CLAUDE.md and any code comments that describe them in the same change.
 - Make a plan for non-trivial work; keep changes small and reviewable.
 - Run `npm run check` and `npm run build` before declaring work done, and say plainly if you couldn't.
-- Never commit or push without being asked. PRs go from a feature branch into `main`; `main` is what Vercel deploys.
+- Never commit or push without being asked.
+- **Branching: all work targets `the-new-world`, not `main`, until launch.** Feature branches (e.g. `global-styling`) branch off `the-new-world`, and PRs go into `the-new-world`. `main` is the LIVE static GitHub Pages site (served from `main` at `/`, with `CNAME` for vegandj.biz). Never merge into, push to, or open PRs against `main` until the owner says it is launch time.
+- Launch note: `the-new-world` was built on `main` by reverting the revert of PR #3 (commit `Reapply "Rebuild landing page..."`). A plain merge of `the-new-world` into `main` therefore works; do not recreate the branch from older commits, or the merge will say "Already up to date" and change nothing.
 - Keep dependencies current: run `npm audit` and `npm outdated` periodically. Stay on `next@latest`; majors of TypeScript/ESLint wait until `eslint-config-next` supports them.
 - Don't add dependencies lightly. This site should stay tiny and fast; justify any new package in the PR.
 - Record meaningful technical choices as a short ADR in `docs/adr/`. Track work in `docs/ROADMAP.md`.

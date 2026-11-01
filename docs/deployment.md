@@ -1,10 +1,10 @@
 # Deployment
 
-Hosting: **Vercel Hobby (free)**. `main` is production; every PR gets a preview URL.
+Hosting target: **Vercel Hobby (free)**. Until launch, `main` is the live static site on GitHub Pages (served from `main` at `/`, `CNAME` = vegandj.biz) and must not change; development happens on `the-new-world`. After launch, `main` is production and every PR gets a preview URL.
 
 ## First-time setup (not yet done)
 
-1. Merge `the-new-world` into `main` via PR (CI must be green).
+1. At launch only: merge `the-new-world` into `main` via PR (CI must be green). This replaces the GitHub Pages site, so switch DNS and Pages off in the same window.
 2. In Vercel: **Add New → Project**, import `jds-tag/vegandj.biz`. Framework preset auto-detects Next.js; leave build settings default.
 3. Add the domain `vegandj.biz` (and `www`) under **Settings → Domains** and set the DNS records Vercel shows at the registrar.
 4. Check the preview deployment on a phone before promoting the domain.
