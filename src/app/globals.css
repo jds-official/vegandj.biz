@@ -11,6 +11,7 @@
 @theme {
   --color-brown: #381c09;
   --color-party: #f7b7ce;
+  --color-party-bright: #fcd3e2; /* hover; brown on it is 11.62:1 */
 }
 
 @theme inline {
@@ -191,6 +192,116 @@ body {
   background: var(--color-party);
   border-radius: 999px;
   box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.45);
+  transition:
+    background-color 150ms ease,
+    box-shadow 200ms ease;
+}
+
+/* Hover for "Let's Party!": the button brightens and gets a brown inner ring
+   (a change you can see without any motion), then, only for people who have
+   not asked for reduced motion, it pops up, tilts, wiggles once and throws a
+   little confetti. Hover is limited to devices that really hover so a tap does
+   not leave it stuck on; keyboard focus gets the same treatment.
+   Every color of the button keeps brown-on-pink contrast above 9:1, nothing
+   flashes, and the one wiggle runs a single time (WCAG 2.2.2 / 2.3.1 / 2.3.3). */
+@media (hover: hover) {
+  .hero-cta:hover {
+    background-color: var(--color-party-bright);
+    box-shadow:
+      inset 0 0 0 3px var(--color-brown),
+      0 0.7rem 1.4rem rgb(0 0 0 / 0.5);
+  }
+}
+
+.hero-cta:focus-visible {
+  background-color: var(--color-party-bright);
+}
+
+.hero-cta::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  /* Confetti: six dots drawn as shadows of this one, all above or beside the
+     button so none lands on the photo credit below it. */
+  box-shadow:
+    -6.5rem -0.4rem 0 #ffd37a,
+    -3.5rem -1.4rem 0 #ffffff,
+    -1rem -2rem 0 #9ad7ff,
+    2.5rem -1.7rem 0 #ffd37a,
+    5.2rem -0.9rem 0 #ffffff,
+    7rem 0.2rem 0 #ffb0cd;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-cta {
+    transition:
+      translate 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      scale 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      rotate 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      background-color 150ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .hero-cta::before {
+    transform: scale(0.3);
+    transition:
+      opacity 180ms ease,
+      transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .hero-cta:active {
+    scale: 0.97;
+  }
+
+  @media (hover: hover) {
+    .hero-cta:hover {
+      translate: -50% -0.2rem;
+      scale: 1.06;
+      rotate: -1.5deg;
+      animation: party-wiggle 500ms ease-out;
+    }
+
+    .hero-cta:hover::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .hero-cta:focus-visible {
+    translate: -50% -0.2rem;
+    scale: 1.06;
+    rotate: -1.5deg;
+    animation: party-wiggle 500ms ease-out;
+  }
+
+  .hero-cta:focus-visible::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes party-wiggle {
+  0% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -4deg;
+  }
+  55% {
+    rotate: 3deg;
+  }
+  80% {
+    rotate: -2.5deg;
+  }
+  100% {
+    rotate: -1.5deg;
+  }
 }
 
 /* Photo credit, bottom right of the hero. Pink on brown is the sign's color
