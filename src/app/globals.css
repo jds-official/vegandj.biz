@@ -1,10 +1,11 @@
 @import 'tailwindcss';
 
 /*
- * Hero palette. `brown` is the owner's brown (#4c2a11, sampled from their
- * swatch) and is the text and border color on every pink surface; `party` is
+ * Hero palette. `brown` is the owner's brown (#381c09, darkened by hand from the
+ * #4c2a11 swatch) and is the text and border color on every pink surface; `party` is
  * the hair pink, lightened just enough to pass. AAA needs >= 7:1:
- *   brown on party  7.66:1    (the earlier #f6a9c4 pink only reached 6.92:1)
+ *   brown on party  9.43:1    (the lighter #4c2a11 brown reached 7.66:1; the earlier
+ *                           #f6a9c4 pink only 6.92:1)
  * Re-check this pair whenever either color changes.
  */
 @theme {
@@ -121,7 +122,7 @@ body {
    (the stage is always centered, so 50% of it is the window's center, about
    2% left of the mirror's own center) and set near the top, above the DJ's
    head. No rotation, so the letters are never tilted or distorted. Brown on
-   soft pink is 7.66:1. Sizes are in cqw of the stage, so it scales with the
+   soft pink is 9.43:1. Sizes are in cqw of the stage, so it scales with the
    photo. */
 .mirror-sign {
   position: absolute;
@@ -162,7 +163,7 @@ body {
 .hero-cta {
   position: absolute;
   left: 50%;
-  bottom: 6%;
+  bottom: max(6%, 4rem); /* stays clear of the photo credit on small screens */
   translate: -50% 0;
   display: inline-flex;
   align-items: center;
@@ -174,4 +175,69 @@ body {
   background: var(--color-party);
   border-radius: 999px;
   box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.45);
+}
+
+/* Photo credit, bottom right of the hero. Pink on brown is the sign's color
+   pair reversed, so it is the same 9.43:1 (AAA). Sized in rem so it follows the
+   user's text size; 44px minimum target height (WCAG 2.5.5). */
+.photo-credit {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-party);
+  background: var(--color-brown);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 0.4);
+  text-decoration: none;
+}
+
+.photo-credit-icon {
+  width: 0.9em;
+  height: 0.9em;
+  flex: none;
+}
+
+/* The underline is drawn, not `text-decoration`: the browser's underline
+   dodges descenders ("skip-ink"), which chops it around the cedilla in
+   "Tulça". This line sits just below the lowest part of the letters, so the
+   cedilla is never touched. It wipes in left to right on hover or keyboard
+   focus. On leaving, the background anchor flips to the right edge, so the line
+   keeps travelling left to right and wipes out the other side. */
+.photo-credit-text {
+  padding-bottom: 0.12em;
+  background: linear-gradient(currentColor, currentColor) no-repeat;
+  background-size: 0 2px;
+  background-position: 100% 100%;
+  transition: background-size 300ms ease;
+}
+
+.photo-credit:hover .photo-credit-text,
+.photo-credit:focus-visible .photo-credit-text {
+  background-size: 100% 2px;
+  background-position: 0 100%;
+}
+
+/* Keyboard focus: the line plus a three-ring indicator (brown, pink, brown)
+   that keeps 3:1 contrast against both the box and any photo behind it
+   (WCAG 2.4.7 / 2.4.13). The transparent outline survives forced-colors mode. */
+.photo-credit:focus-visible {
+  outline: 3px solid transparent;
+  box-shadow:
+    0 0 0 3px var(--color-brown),
+    0 0 0 6px var(--color-party),
+    0 0 0 9px var(--color-brown);
+}
+
+/* No motion for people who ask for none: the line simply appears. */
+@media (prefers-reduced-motion: reduce) {
+  .photo-credit-text {
+    transition: none;
+  }
 }

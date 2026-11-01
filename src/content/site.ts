@@ -40,6 +40,12 @@ export const site = {
       'Grand Format, in a tweed jacket and headphones, leaning over a turntable to cue a pink record, with a second turntable and a crate of records alongside.',
   },
 
+  // Credit for the hero photo, shown bottom right of the hero.
+  photoCredit: {
+    name: 'Yaz Tulça',
+    url: 'https://yaztulca.com/',
+  },
+
   reel: {
     heading: 'Vinyl vibes for your weddings, celebrations, anywhere!',
   },
