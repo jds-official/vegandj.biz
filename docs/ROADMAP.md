@@ -1,16 +1,16 @@
 # Roadmap
 
-Status as of 2026-11-01. Update this file when work lands or priorities change.
+Status as of 2026-11-03. Update this file when work lands or priorities change.
 
-## Now: get the landing page live
+## Done: the landing page is live on Vercel
 
 - [x] Migrate from static HTML/SCSS/Gulp to Next.js ([ADR 0002](adr/0002-nextjs-on-vercel.md))
 - [x] Clean repo: remove build output, stray scaffold folder, Drupal config, unused deps
 - [x] Landing page: full-screen photo hero with the sign and CTA, plus a pink contact panel that slides over it, and a footer (the reel, intro and services sections were removed)
 - [x] Click-to-load YouTube embed component ([ADR 0001](adr/0001-youtube-for-video-hosting.md))
 - [x] CI (lint, types, format, build), CLAUDE.md, README, ADRs
-- [ ] Open PR `the-new-world` → `main`
-- [ ] Connect repo to Vercel, deploy, point `vegandj.biz` DNS ([deployment](deployment.md))
+- [x] Merge `the-new-world` into `main` (PR #6)
+- [x] Connect repo to Vercel (builds `main`), point `vegandj.biz` DNS, deactivate GitHub Pages ([deployment](deployment.md))
 - [x] Photo hero with the headline on a disco-ball display and a "Let's Party!" CTA; sticky header removed
 - [x] Peanut Chews logo under the form, centered at 75% of the form's width
 - [x] Social card: title, OG description, and a 1200×630 hero image (credit in its alt text)

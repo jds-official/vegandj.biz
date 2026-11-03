@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, the-new-world]
+    branches: [main]
 
 jobs:
   check:
