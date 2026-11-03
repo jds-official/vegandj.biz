@@ -1,0 +1,469 @@
+@import 'tailwindcss';
+
+/*
+ * Hero palette. `brown` is the owner's brown (#381c09, darkened by hand from the
+ * #4c2a11 swatch) and is the text and border color on every pink surface; `party` is
+ * the hair pink, lightened just enough to pass. AAA needs >= 7:1:
+ *   brown on party  9.43:1    (the lighter #4c2a11 brown reached 7.66:1; the earlier
+ *                           #f6a9c4 pink only 6.92:1)
+ * Re-check this pair whenever either color changes.
+ */
+@theme {
+  --color-brown: #381c09;
+  --color-party: #f7b7ce;
+  --color-party-bright: #fcd3e2; /* hover; brown on it is 11.62:1 */
+}
+
+@theme inline {
+  /* Fonts are loaded in src/app/layout.tsx via next/font. `inline` is required:
+     the next/font variables live on <body>, not :root. Plain CSS in this file
+     must reference --font-audiowide / --font-lexend directly. */
+  --font-display: var(--font-audiowide);
+  --font-sans: var(--font-lexend);
+  --breakpoint-xs: 25rem;
+}
+
+/*
+ * Fluid type scale. Each step scales linearly with the viewport between 320px
+ * and 1440px, then holds: clamp(min, intercept + slope * vw, max).
+ *   slope     = (maxPx - minPx) / (1440 - 320)   -> expressed in vw
+ *   intercept = (minPx - slope * 320) / 16       -> expressed in rem
+ * Every value is rem-based (the intercept and the min/max), so text still
+ * honours the browser's font-size setting and zooms to 200% (WCAG 1.4.4).
+ * To retune a step, recompute with the formula above; do not hand-nudge numbers.
+ * Used as `text-display`, `text-headline`, `text-title`, `text-lead`, `text-body`.
+ *
+ *   step      320px   1440px
+ *   body       18px     20px
+ *   lead       20px     24px
+ *   title      22px     28px
+ *   headline   28px     48px
+ *   display    28px     72px
+ */
+@theme {
+  --text-display: clamp(1.75rem, 0.9643rem + 3.9286vw, 4.5rem);
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.02em;
+  --text-headline: clamp(1.75rem, 1.3929rem + 1.7857vw, 3rem);
+  --text-headline--line-height: 1.15;
+  --text-headline--letter-spacing: -0.01em;
+  --text-title: clamp(1.375rem, 1.2679rem + 0.5357vw, 1.75rem);
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: 0.01em;
+  --text-lead: clamp(1.25rem, 1.1786rem + 0.3571vw, 1.5rem);
+  --text-lead--line-height: 1.6;
+  --text-body: clamp(1.125rem, 1.0893rem + 0.1786vw, 1.25rem);
+  --text-body--line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Single light theme: sections use fixed rose/white backgrounds. */
+body {
+  background: #ffffff;
+  color: #171717;
+  font-family: var(--font-lexend);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height); /* >= 1.5 per WCAG 1.4.8 */
+}
+
+@layer base {
+  /* Headings share the body face (Lexend) at heavier weights. Audiowide
+     (`font-display`) is reserved for the header wordmark and is opted into
+     explicitly, never inherited. */
+  h1,
+  h2,
+  h3 {
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-weight: 800;
+  }
+
+  /* Keep line length comfortable (WCAG 1.4.8: <= 80 characters). */
+  p {
+    max-width: 65ch;
+  }
+}
+
+/*
+ * Hero. `.hero` is the first screen. `.hero-stage` is the photo's own box: the
+ * smallest 3:2 box that covers the window, positioned exactly the way
+ * `object-fit: cover; object-position: 50% 10%` would place the photo. Because
+ * overlays live inside the stage, their percentage positions and cqw sizes are
+ * locked to the picture at every window shape. Tune the 0.5 / 0.1 pair (they
+ * are the position, as fractions) to re-frame the crop.
+ */
+/* Always the full height of the screen, including on iPhone Safari. There the
+   address/tool bars slide away as you scroll, so the "large" viewport (lvh) is
+   taller than the "small" one (svh) you see on load. The hero is lvh tall, so
+   the photo already fills the whole screen once the bars collapse and never
+   resizes (or visibly zooms) while they animate. `--bar` is the height of the
+   bars (0 on desktop); the button and credit are measured up from the
+   small-viewport bottom plus `--bar`, so they sit above the bars on load. */
+.hero {
+  --bar: calc(100lvh - 100svh);
+  position: relative;
+  height: 100svh; /* fallback */
+  height: 100lvh;
+  min-height: 30rem;
+  overflow: hidden;
+  container-type: size;
+  background: #0b0b0c;
+}
+
+.hero-stage {
+  --stage-w: max(100cqw, 150cqh);
+  position: absolute;
+  width: var(--stage-w);
+  aspect-ratio: 3 / 2;
+  /* Nudge the photo left by --stage-shift (0 by default) to bring the DJ, who
+     stands right of the photo's center, nearer the window's center. Capped at
+     half the photo's overhang, so it can never expose a gap at the right. */
+  --stage-shift: 0px;
+  left: calc(
+    (100cqw - var(--stage-w)) * 0.5 -
+      min(var(--stage-shift), (var(--stage-w) - 100cqw) * 0.5)
+  );
+  top: calc((100cqh - var(--stage-w) / 1.5) * 0.1);
+  container-type: inline-size;
+}
+
+/* The sign in the mirror. A plain upright box, centered on the window and
+   always 3% of the window height down from the top, however the window is
+   resized (it is a child of `.hero`, not of the photo, so the photo's crop
+   never moves it). No rotation, so the letters are never tilted or
+   distorted. Brown on soft pink is 9.43:1. `--u` is 1% of the photo's width
+   (the same width as `.hero-stage`), so the sign still scales with the photo. */
+.mirror-sign {
+  position: absolute;
+  /* --u is 1% of the photo's width, with two limits so the sign stays usable
+     from 320px up. Ceiling: the sign is 30.7 u wide (one-line tagline plus
+     padding, measured with Lexend), so u is capped to keep 0.75rem free on
+     each side of the window. Floor: 0.6rem, so the tagline (1.35 u) never
+     drops below about 13px, even in a short window where the photo is small.
+     Re-measure 30.7 if the font, the copy or the padding change. */
+  --u: max(
+    0.6rem,
+    min(calc(max(100cqw, 150cqh) / 100), calc((100cqw - 1.5rem) / 30.7))
+  );
+  left: 50%; /* window-centered, matching the button */
+  top: 3cqh; /* 3% of the hero's height */
+  width: max-content; /* hugs the one-line tagline */
+  padding: calc(var(--u) * 1) calc(var(--u) * 1.2) calc(var(--u) * 1.1);
+  transform: translateX(-50%);
+  text-align: center;
+  color: var(--color-brown);
+  background: var(--color-party);
+  border: calc(var(--u) * 0.16) solid var(--color-brown);
+  border-radius: calc(var(--u) * 1.2);
+  box-shadow: 0 calc(var(--u) * 0.5) calc(var(--u) * 1.4) rgb(0 0 0 / 0.4);
+}
+
+.mirror-sign-title {
+  font-family: var(--font-audiowide);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: calc(var(--u) * 2.7);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.mirror-sign-sub {
+  max-width: none;
+  margin-top: calc(var(--u) * 0.4);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.35);
+  line-height: 1.3;
+  white-space: nowrap; /* the tagline stays on one line */
+}
+
+/* "Let's Party!" sits at the bottom of the window, on the dark road cases.
+   Sized in rem so it scales with the user's text size; 44px minimum target
+   height (WCAG 2.5.5). */
+.hero-cta {
+  position: absolute;
+  left: 50%;
+  bottom: calc(
+    var(--bar) + max(6svh, 4rem)
+  ); /* above the iPhone bars; clear of the credit on small screens */
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 2rem;
+  white-space: nowrap;
+  font-size: 1.5rem; /* static: does not scale with the window */
+  color: var(--color-brown);
+  background: var(--color-party);
+  border-radius: 999px;
+  box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.45);
+  transition:
+    background-color 150ms ease,
+    box-shadow 200ms ease;
+}
+
+/* Hover for "Let's Party!": the button brightens and gets a brown inner ring
+   (a change you can see without any motion), then, only for people who have
+   not asked for reduced motion, it pops up, tilts, wiggles once and throws a
+   little confetti. Hover is limited to devices that really hover so a tap does
+   not leave it stuck on; keyboard focus gets the same treatment.
+   Every color of the button keeps brown-on-pink contrast above 9:1, nothing
+   flashes, and the one wiggle runs a single time (WCAG 2.2.2 / 2.3.1 / 2.3.3). */
+@media (hover: hover) {
+  .hero-cta:hover {
+    background-color: var(--color-party-bright);
+    box-shadow:
+      inset 0 0 0 3px var(--color-brown),
+      0 0.7rem 1.4rem rgb(0 0 0 / 0.5);
+  }
+}
+
+.hero-cta:focus-visible {
+  background-color: var(--color-party-bright);
+}
+
+.hero-cta::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  /* Confetti: six dots drawn as shadows of this one, all above or beside the
+     button so none lands on the photo credit below it. */
+  box-shadow:
+    -6.5rem -0.4rem 0 #ffd37a,
+    -3.5rem -1.4rem 0 #ffffff,
+    -1rem -2rem 0 #9ad7ff,
+    2.5rem -1.7rem 0 #ffd37a,
+    5.2rem -0.9rem 0 #ffffff,
+    7rem 0.2rem 0 #ffb0cd;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-cta {
+    transition:
+      translate 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      scale 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      rotate 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      background-color 150ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .hero-cta::before {
+    transform: scale(0.3);
+    transition:
+      opacity 180ms ease,
+      transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .hero-cta:active {
+    scale: 0.97;
+  }
+
+  @media (hover: hover) {
+    .hero-cta:hover {
+      translate: -50% -0.2rem;
+      scale: 1.06;
+      rotate: -1.5deg;
+      animation: party-wiggle 500ms ease-out;
+    }
+
+    .hero-cta:hover::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .hero-cta:focus-visible {
+    translate: -50% -0.2rem;
+    scale: 1.06;
+    rotate: -1.5deg;
+    animation: party-wiggle 500ms ease-out;
+  }
+
+  .hero-cta:focus-visible::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes party-wiggle {
+  0% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -4deg;
+  }
+  55% {
+    rotate: 3deg;
+  }
+  80% {
+    rotate: -2.5deg;
+  }
+  100% {
+    rotate: -1.5deg;
+  }
+}
+
+/* Photo credit, bottom right of the hero. Pink on brown is the sign's color
+   pair reversed, so it is the same 9.43:1 (AAA). Sized in rem so it follows the
+   user's text size; 44px minimum target height (WCAG 2.5.5). */
+.photo-credit {
+  position: absolute;
+  right: 0.75rem;
+  bottom: calc(var(--bar) + 0.75rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: max-content; /* never wraps, even when centered at 320px */
+  white-space: nowrap;
+  min-height: 2rem;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-party);
+  background: var(--color-brown);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 0.4);
+  text-decoration: none;
+}
+
+/* The box is 2rem tall, so an invisible extension adds 0.375rem above and
+   below to reach the 44px (2.75rem) target size AAA asks for (WCAG 2.5.5)
+   without changing how it looks. Pointer events on the extension count as the
+   link's. */
+.photo-credit::after {
+  content: '';
+  position: absolute;
+  inset: -0.375rem 0;
+}
+
+.photo-credit-icon {
+  width: 0.9em;
+  height: 0.9em;
+  flex: none;
+}
+
+/* Used by the photo credit (`.wipe-link` with a `.wipe-line` span around its
+   text). The "Let's Party!" button deliberately has no underline. The underline is drawn, not `text-decoration`: the
+   browser's underline dodges descenders ("skip-ink"), which chops it around
+   the cedilla in "Tulça". This line sits just below the lowest part of the
+   letters, so the cedilla is never touched. It wipes in left to right on hover
+   or keyboard focus. On leaving, the background anchor flips to the right edge,
+   so the line keeps travelling left to right and wipes out the other side. */
+.wipe-line {
+  padding-bottom: 0.12em;
+  background: linear-gradient(currentColor, currentColor) no-repeat;
+  background-size: 0 2px;
+  background-position: 100% 100%;
+  transition: background-size 300ms ease;
+}
+
+.wipe-link:hover .wipe-line,
+.wipe-link:focus-visible .wipe-line {
+  background-size: 100% 2px;
+  background-position: 0 100%;
+}
+
+/* Keyboard focus (credit link and button): a three-ring indicator (brown, pink, brown)
+   that keeps 3:1 contrast against both the element and any photo behind it
+   (WCAG 2.4.7 / 2.4.13). The transparent outline survives forced-colors mode. */
+.wipe-link:focus-visible,
+.hero-cta:focus-visible,
+.site-footer a:focus-visible {
+  outline: 3px solid transparent;
+  box-shadow:
+    0 0 0 3px var(--color-brown),
+    0 0 0 6px var(--color-party),
+    0 0 0 9px var(--color-brown);
+}
+
+/* No motion for people who ask for none: the line simply appears. */
+@media (prefers-reduced-motion: reduce) {
+  .wipe-line {
+    transition: none;
+  }
+}
+
+/* Below 1024px the credit moves to the bottom center and the button rises
+   above it, leaving a 1.5rem gap (credit is 2rem tall, 0.75rem off the
+   bottom). From 1024px up the credit stays bottom right. */
+@media (max-width: 63.99rem) {
+  .photo-credit {
+    right: auto;
+    left: 50%;
+    translate: -50% 0;
+  }
+
+  .hero-cta {
+    bottom: calc(var(--bar) + 4.25rem);
+  }
+}
+
+/* Below 500px (phones) shift the photo 80px left, the same idea as below. */
+@media (max-width: 31.24rem) {
+  .hero-stage {
+    --stage-shift: 80px;
+  }
+}
+
+/* From 500px to 1023px wide the window is narrow enough to crop the photo, so
+   shift it 90px left to put the DJ closer to the window's center. */
+@media (min-width: 31.25rem) and (max-width: 63.99rem) {
+  .hero-stage {
+    --stage-shift: 90px;
+  }
+}
+
+/* The contact panel slides up over the hero, which stays pinned behind it.
+   Skipped for people who ask for reduced motion: the hero then scrolls away
+   like any other section. (`position: sticky` rather than a fixed background,
+   because fixed backgrounds are unreliable in iOS Safari.) */
+@media (prefers-reduced-motion: no-preference) {
+  .hero {
+    position: sticky;
+    top: 0;
+  }
+}
+
+.contact-panel {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  color: var(--color-brown);
+  background: var(--color-party);
+  border-radius: 1.5rem 1.5rem 0 0;
+  box-shadow: 0 -1rem 2.5rem rgb(0 0 0 / 0.4);
+}
+
+/* Google's form is its own page with its own colors; we only frame it. */
+.contact-frame {
+  overflow: hidden;
+  background: #ffffff;
+  border: 3px solid var(--color-brown);
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1.5rem rgb(56 28 9 / 0.35);
+}
+
+.site-footer {
+  color: var(--color-party);
+  background: var(--color-brown);
+}
+
+/* Browsers without lvh/svh: no bars to allow for. */
+@supports not (height: 100lvh) {
+  .hero {
+    --bar: 0px;
+  }
+}
