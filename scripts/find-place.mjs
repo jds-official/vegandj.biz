@@ -13,8 +13,10 @@ if (!key) {
   process.exit(1);
 }
 
+// The exact name of the Business Profile listing. Looser guesses (for example
+// "Grand Format vegan DJ") find nothing, because the listing has no address.
 const query =
-  process.argv[2] ?? 'Grand Format vegan vinyl wedding DJ Hudson Valley NY';
+  process.argv[2] ?? 'Grand Format: the vegan vinyl DJ in the Hudson Valley';
 
 async function call(url, init, mask) {
   const res = await fetch(url, {
