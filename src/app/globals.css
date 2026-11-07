@@ -166,6 +166,53 @@ body {
   box-shadow: 0 calc(var(--u) * 0.5) calc(var(--u) * 1.4) rgb(0 0 0 / 0.4);
 }
 
+/* Google rating pill, a quiet corner piece. Default (phones, tablets, tall or
+   narrow windows): centered above "Let's Party!", clear of the button's
+   confetti. Never in a bottom corner: the browser's URL bar on hover sits there
+   and would cover a link. Pink on brown, 9.43:1. Same 44px hit-area trick as
+   the photo credit. The container query below moves it to the top left when
+   the hero is wide enough that the sign (30.7 u wide, u = max(width, 1.5 x
+   height) / 100) leaves room beside it; the pill is about 260px wide. */
+.review-chip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--bar) + 9.5rem);
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: max-content;
+  white-space: nowrap;
+  min-height: 2rem;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-party);
+  background: var(--color-brown);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 0.4);
+  text-decoration: none;
+}
+
+/* Checked: at 896px wide and 4:3 (the tightest case the query allows) the sign
+   is about 345px wide, which leaves a gap of at least 16px between the pill
+   (about 260px) and the sign. Re-check if the sign's size or the pill's text
+   changes. */
+@container (min-aspect-ratio: 4 / 3) and (min-width: 56rem) {
+  .review-chip {
+    left: 0.75rem;
+    bottom: auto;
+    top: 3cqh; /* level with the top of the sign */
+    translate: none;
+  }
+}
+
+.review-chip::after {
+  content: '';
+  position: absolute;
+  inset: -0.375rem 0;
+}
+
 .mirror-sign-title {
   font-family: var(--font-audiowide);
   font-weight: 400;
@@ -381,6 +428,7 @@ body {
    (WCAG 2.4.7 / 2.4.13). The transparent outline survives forced-colors mode. */
 .wipe-link:focus-visible,
 .hero-cta:focus-visible,
+.review-row:focus-visible,
 .site-footer a:focus-visible {
   outline: 3px solid transparent;
   box-shadow:
@@ -397,8 +445,9 @@ body {
 }
 
 /* Below 1024px the credit moves to the bottom center and the button rises
-   above it, leaving a 1.5rem gap (credit is 2rem tall, 0.75rem off the
-   bottom). From 1024px up the credit stays bottom right. */
+   above it, leaving a 2rem gap (credit is 2rem tall, 0.75rem off the
+   bottom), and the review pill sits 2rem above the button, so credit, button
+   and pill are evenly spaced. From 1024px up the credit stays bottom right. */
 @media (max-width: 63.99rem) {
   .photo-credit {
     right: auto;
@@ -407,7 +456,7 @@ body {
   }
 
   .hero-cta {
-    bottom: calc(var(--bar) + 4.25rem);
+    bottom: calc(var(--bar) + 4.75rem);
   }
 }
 
