@@ -15,8 +15,11 @@ Status as of 2026-11-03. Update this file when work lands or priorities change.
 - [x] Peanut Chews logo under the form, centered at 75% of the form's width
 - [x] Social card: title, OG description, and a 1200×630 hero image (credit in its alt text)
 
+- [x] Google reviews: rating pill in the hero, review quotes above the logo, refreshed daily ([ADR 0003](adr/0003-google-reviews-places-api.md))
+
 ## Next
 
+- [ ] Tune the reviews widget by eye (chip placement per breakpoint, carousel vs. row, whether the panel is the right spot)
 - [ ] Real-device check at phone widths (most wedding clients will arrive from a phone)
 - [ ] Lighthouse pass (target 95+ performance/accessibility/SEO)
 - [ ] `sitemap.xml` / `robots.txt` via the App Router metadata files (replaces the old Drupal sitemap config)

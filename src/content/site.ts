@@ -53,6 +53,19 @@ export const site = {
     url: 'https://yaztulca.com/',
   },
 
+  /**
+   * Google reviews (see docs/adr/0003-google-reviews-places-api.md). The Place
+   * ID is public; the API key is not and lives in GOOGLE_PLACES_API_KEY.
+   * `minRating` hides reviews below it; `excerptChars` is where a long review
+   * is cut and a "Read more on Google" link takes over.
+   */
+  reviews: {
+    placeId: 'ChIJdebg4l_eHwERW3jz82mvy4s',
+    minRating: 4,
+    excerptChars: 180,
+    heading: 'What people are saying',
+  },
+
   reel: {
     heading: 'Vinyl vibes for your weddings, celebrations, anywhere!',
   },

@@ -1,9 +1,12 @@
 import Image from 'next/image';
 import Footer from '@/components/Footer';
 import HeroLinkGuard from '@/components/HeroLinkGuard';
+import { ReviewChip, ReviewQuotes } from '@/components/Reviews';
 import { site } from '@/content/site';
+import { getReviews } from '@/lib/reviews';
 
-export default function Home() {
+export default async function Home() {
+  const reviews = await getReviews();
   return (
     <>
       <main>
@@ -31,6 +34,7 @@ export default function Home() {
           <a href="#contact" className="hero-cta font-display" data-hero-link>
             {site.hero.cta}
           </a>
+          {reviews && <ReviewChip data={reviews} />}
           <a
             href={site.photoCredit.url}
             target="_blank"
@@ -82,6 +86,7 @@ export default function Home() {
               </iframe>
             </div>
           </div>
+          {reviews && <ReviewQuotes data={reviews} />}
           {/* Logo: 75% of the form's width at every size, centered, with 3rem
               above and below. */}
           <div className="mx-auto max-w-3xl px-4 py-12">
