@@ -15,7 +15,7 @@ Fetch the rating, review count and reviews from the Places API (New), server-sid
 - The key is `GOOGLE_PLACES_API_KEY`, server-side only (never `NEXT_PUBLIC_`), restricted to Places API (New) in Google Cloud.
 - If the key is missing, or Google is unreachable during the build, the widget hides and the build still passes. If a daily refresh fails at runtime the code throws, so Next keeps serving the last good page.
 - Review photos are not in the API response, and we omit reviewers' avatars, so nothing competes with the hero photo.
-- Long reviews are cut at `excerptChars` and link to the review on Google; the chip and heading link to the full list. This also satisfies Google's attribution requirement.
+- Long reviews are cut at `excerptChars` and link to the review on Google; the link above the quotes goes to the full list. The hero chip smooth-scrolls to the quotes instead of leaving the site. This also satisfies Google's attribution requirement.
 - Reviews below `minRating` (4) are hidden.
 
 This is a deliberate exception to "no server runtime: every page is statically prerendered": the page is still prerendered, but now regenerates on a schedule.

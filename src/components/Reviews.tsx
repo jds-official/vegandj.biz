@@ -25,22 +25,24 @@ function Stars({ rating, className }: { rating: number; className?: string }) {
   );
 }
 
-/** Rating pill in the hero's bottom left corner. A link to the reviews on Google. */
+/** Rating pill in the hero. Smooth-scrolls to the quotes (`#reviews`); the
+ *  link above the quotes is the one that goes out to Google. With no quotes to
+ *  scroll to, it links out instead. */
 export function ReviewChip({ data }: { data: Reviews }) {
   const label = `${data.rating.toFixed(1)} · ${data.count} Google ${
     data.count === 1 ? 'review' : 'reviews'
   }`;
+  const toQuotes = data.reviews.length > 0;
   return (
     <a
-      href={data.reviewsUrl}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={toQuotes ? '#reviews' : data.reviewsUrl}
+      {...(toQuotes ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
       className="review-chip wipe-link"
       data-hero-link
     >
       <Stars rating={data.rating} />
       <span className="wipe-line">{label}</span>
-      <span className="sr-only"> (opens in a new tab)</span>
+      {!toQuotes && <span className="sr-only"> (opens in a new tab)</span>}
     </a>
   );
 }
@@ -51,6 +53,7 @@ export function ReviewQuotes({ data }: { data: Reviews }) {
   if (data.reviews.length === 0) return null;
   return (
     <section
+      id="reviews"
       aria-labelledby="reviews-heading"
       className="mx-auto max-w-3xl px-4 pt-16"
     >
